@@ -1,9 +1,16 @@
+#include <ctime>
 #include <gl\glut.h>
 #include "game.h"
 
-int gridX, gridY;
-short sDirection = RIGHT;
 int posX = 20, posY = 20;
+int gridX, gridY;
+int foodX, foodY;
+
+short sDirection = RIGHT;
+
+
+extern bool gameOver;
+bool food = true;
 
 void initGrid(int x, int y) {
 	gridX = x;
@@ -20,7 +27,6 @@ void drawGrid() {
 
 void unit(int x, int y) {
 
-	
 	if (x == 0 || y == 0 || x == gridX - 1 || y == gridY - 1) {
 		glLineWidth(3.0);
 		glColor3f(1.0, 0.0, 0.0);
@@ -40,7 +46,6 @@ void unit(int x, int y) {
 
 void drawSnake() {
 
-	glColor3f(1.0, 0.0, 0.0);
 	switch (sDirection) {
 	case UP:
 		posY++;
@@ -55,6 +60,38 @@ void drawSnake() {
 		posX--;
 		break;
 	}
-
+	glColor3f(0.0, 0.0, 1.0);
 	glRectd(posX, posY, posX + 1, posY + 1);
+	
+	checkGameOver();
+	checkSnakePosition();
+}
+
+void drawFood() {
+	if (food)
+		random(foodX, foodY);
+	food = false;
+	glColor3f(0.0, 1.0, 0.0);
+	glRectd(foodX, foodY, foodX + 1, foodY + 1);
+}
+
+void random(int &x, int &y) {
+	
+	int _maxX = gridX - 2;
+	int _maxY = gridY - 2;
+	int _min = 1;
+
+	srand(time(NULL));
+	x = rand() % (_maxX - _min) + _min;
+	y = rand() % (_maxY - _min) + _min;
+}
+
+void checkGameOver() {
+	if (posX == 0 || posX == gridX - 1 || posY == 0 || posY == gridY - 1)
+		gameOver = true;
+}
+
+void checkSnakePosition() {
+	if (posX == foodX && posY == foodY)
+		food = true;
 }

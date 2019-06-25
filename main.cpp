@@ -8,6 +8,7 @@
 #define ESC 27
 
 extern short sDirection;
+bool gameOver = FALSE;
 
 void keyboard_callback(unsigned char, int, int);
 void special_callback(int, int, int);
@@ -51,7 +52,12 @@ void display_callback() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawGrid();
 	drawSnake();
+	drawFood();
 	glutSwapBuffers();
+	if (gameOver) {
+		MessageBox(NULL, TEXT("Your Score : "), TEXT("GAME OVER"), 0);
+		exit(0);
+	}
 
 }
 

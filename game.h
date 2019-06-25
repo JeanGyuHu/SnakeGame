@@ -9,3 +9,7 @@ void initGrid(int, int);
 void drawGrid();
 void unit(int, int);
 void drawSnake();
+void drawFood();
+void random(int &x, int &y);
+void checkSnakePosition();
+void checkGameOver();
