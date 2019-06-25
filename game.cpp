@@ -2,6 +2,8 @@
 #include "game.h"
 
 int gridX, gridY;
+short sDirection = RIGHT;
+int posX = 20, posY = 20;
 
 void initGrid(int x, int y) {
 	gridX = x;
@@ -18,8 +20,15 @@ void drawGrid() {
 
 void unit(int x, int y) {
 
-	glLineWidth(1.0);
-	glColor3f(1.0, 0.0, 0.0);
+	
+	if (x == 0 || y == 0 || x == gridX - 1 || y == gridY - 1) {
+		glLineWidth(3.0);
+		glColor3f(1.0, 0.0, 0.0);
+	}
+	else {
+		glLineWidth(1.0);
+		glColor3f(1.0, 1.0, 1.0);
+	}
 
 	glBegin(GL_LINE_LOOP);
 	glVertex2f(x, y);
@@ -27,4 +36,25 @@ void unit(int x, int y) {
 	glVertex2f(x + 1, y + 1);
 	glVertex2f(x, y + 1);
 	glEnd();
+}
+
+void drawSnake() {
+
+	glColor3f(1.0, 0.0, 0.0);
+	switch (sDirection) {
+	case UP:
+		posY++;
+		break;
+	case DOWN:
+		posY--;
+		break;
+	case RIGHT:
+		posX++;
+		break;
+	case LEFT:
+		posX--;
+		break;
+	}
+
+	glRectd(posX, posY, posX + 1, posY + 1);
 }
